@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 // @Entity : JPA가 관리할 객체
-@Entity
+//@Entity
 public class Member {
   
   @Id

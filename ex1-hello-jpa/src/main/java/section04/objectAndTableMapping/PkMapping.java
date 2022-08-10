@@ -7,13 +7,11 @@ import javax.persistence.*;
 @SequenceGenerator(
         name = "PK_MAPPING_SEQ_GEN",
         sequenceName = "TEST_SEQ",
-        initialValue = 1, allocationSize = 1
+        initialValue = 1, allocationSize = 50
 )
 public class PkMapping {
   
   @Id
-//  @GeneratedValue(strategy = GenerationType.AUTO)
-//  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @GeneratedValue(strategy = GenerationType.SEQUENCE,
     generator = "PK_MAPPING_SEQ_GEN"
   )
@@ -48,10 +46,26 @@ public class PkMapping {
     
     try {
   
-      PkMapping mbr = new PkMapping();
-      mbr.setName("A");
+      PkMapping mbrA = new PkMapping();
+      mbrA.setName("A");
       
-      em.persist(mbr);
+      PkMapping mbrB = new PkMapping();
+      mbrB.setName("B");
+      
+      PkMapping mbrC = new PkMapping();
+      mbrC.setName("C");
+      
+      System.out.println("-".repeat(100));
+      
+      em.persist(mbrA); // 1, 51
+      em.persist(mbrB); // MEM
+      em.persist(mbrC); // MEM
+      
+      System.out.println("mbrA = " + mbrA.getId());
+      System.out.println("mbrB = " + mbrB.getId());
+      System.out.println("mbrC = " + mbrC.getId());
+  
+      System.out.println("-".repeat(100));
       
       tx.commit();
     } catch (Exception e) {

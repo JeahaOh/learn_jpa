@@ -2,21 +2,18 @@ package section04.objectAndTableMapping;
 
 import javax.persistence.*;
 
-//@Entity
-@javax.persistence.TableGenerator(
-        name = "SEQ_GEN",
-        table = "SEQ",
-        pkColumnValue = "MEM_SEQ", allocationSize = 1
-)
-public class TableGenerator {
+@Entity
+@Table(name = "IDNTT_MMBR")
+public class IdentityStrategyMmbr {
   
   @Id
-  @GeneratedValue(strategy = GenerationType.TABLE, generator = "SEQ_GEN")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   
+  @Column(name = "name", nullable = false)
   private String name;
   
-  public TableGenerator() {}
+  public IdentityStrategyMmbr() {}
   
   public Long getId() {
     return id;
@@ -43,10 +40,12 @@ public class TableGenerator {
     
     try {
   
-      TableGenerator seq = new TableGenerator();
-      seq.setName("A");
-      
-      em.persist(seq);
+      IdentityStrategyMmbr mbr = new IdentityStrategyMmbr();
+      mbr.setName("A");
+  
+      System.out.println("-".repeat(10));
+      em.persist(mbr);
+      System.out.println("-".repeat(10));
       
       tx.commit();
     } catch (Exception e) {
