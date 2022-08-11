@@ -96,12 +96,14 @@ public class PersistenceMain {
        * clear() : 영속성 컨텍스트 완전 초기화
        * close() : 영속성 컨텍스트 종료
        */
+      /*
       Member member = em.find(Member.class, 100L);
       member.setName("adsf");
       // 준영속
       em.detach(member);
       Member member2 = em.find(Member.class, 100L);
       System.out.println("------------------");
+      */
   
       tx.commit();
     } catch (Exception e) {

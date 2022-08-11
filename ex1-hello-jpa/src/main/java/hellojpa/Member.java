@@ -1,22 +1,26 @@
 package hellojpa;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 // @Entity : JPA가 관리할 객체
-//@Entity
+@Entity
 public class Member {
   
   @Id
-  // @Id DB PK와 매핑
+  @GeneratedValue
+  @Column(name = "MEMBER_ID")
   private Long id;
-  private String name;
+  
+  @Column(name ="USERNAME")
+  private String username;
+  
+//  @Column(name = "TEAM_ID")
+//  private long teamId;
+  @ManyToOne
+  @JoinColumn(name = "TEAM_ID")
+  private Team team;
   
   public Member() {}
-  public Member(Long id, String name) {
-    this.id = id;
-    this.name = name;
-  }
   
   public Long getId() {
     return id;
@@ -26,11 +30,22 @@ public class Member {
     this.id = id;
   }
   
-  public String getName() {
-    return name;
+  public String getUsername() {
+    return username;
   }
   
-  public void setName(String name) {
-    this.name = name;
+  public void setUsername(String name) {
+    this.username = name;
+  }
+  
+//  public long getTeamId() { return teamId; }
+//  public void setTeamId(long teamId) { this.teamId = teamId; }
+  
+  public Team getTeam() {
+    return team;
+  }
+  
+  public void setTeam(Team team) {
+    this.team = team;
   }
 }

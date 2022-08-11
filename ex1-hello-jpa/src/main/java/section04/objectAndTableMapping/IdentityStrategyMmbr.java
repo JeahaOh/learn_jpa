@@ -2,7 +2,7 @@ package section04.objectAndTableMapping;
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 @Table(name = "IDNTT_MMBR")
 public class IdentityStrategyMmbr {
   

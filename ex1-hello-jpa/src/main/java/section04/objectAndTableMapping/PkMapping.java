@@ -2,7 +2,7 @@ package section04.objectAndTableMapping;
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 @Table(name = "PK_MAPPING")
 @SequenceGenerator(
         name = "PK_MAPPING_SEQ_GEN",
