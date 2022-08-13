@@ -16,36 +16,47 @@ public class JpaMain {
     tx.begin();
     
     try {
-      // 저장
-      Team team = new Team();
-      team.setName("TeamA");
-      em.persist(team);
+      // 양방향 매핑시 가장 많이 하는 실수 1
+      // 연관관계의 주인에 값을 입력하지 않음
+      Member memberA = new Member();
+      memberA.setUsername("member 1");
+      em.persist(memberA);
       
-      Member member = new Member();
-      member.setUsername("member 1");
-      member.setTeam(team);
-      em.persist(member);
-      
-      for (int i = 2; i <= 10; i++) {
-        member = new Member();
-        member.setUsername("member " + i);
-        member.setTeam(team);
-        em.persist(member);
-      }
+      Team teamA = new Team();
+      teamA.setName("TeamA");
+      // 역방향(주인이 아닌 방향)만 연관관계 설정
+      teamA.getMembers().add(memberA);
+      em.persist(teamA);
   
       em.flush();
       em.clear();
       
-      Member findMember = em.find(Member.class, member.getId());
-      List<Member> members = findMember.getTeam().getMembers();
-      System.out.println("members : " + members.size());
+      // 양방향 매핑시 가장 많이하는 실수 2
+      Team teamB = new Team();
+      teamB.setName("Team B");
+      em.persist(teamB);
       
+      Member memberB = new Member();
+      memberB.setUsername("member b");
+      //memberB.setTeam(teamB);
+      memberB.changeTeam(teamB);
+      em.persist(memberB);
       
-      System.out.println("=".repeat(30));
-      for (Member findFromMembers : members) {
-         System.out.println("M = " + findFromMembers.getUsername());
+      // 양방향으로 값을 다 셋팅 해 줘야 함
+      //teamB.getMembers().add(memberB);
+      
+      // em.flush();
+      // em.clear();
+      
+      // 1차 캐시
+      Team findTeam = em.find(Team.class, teamB.getId());
+      List<Member> membersB = findTeam.getMembers();
+      
+      System.out.println("-".repeat(20));
+      for (Member m : membersB) {
+        System.out.println("m : " + m.getUsername());
       }
-      System.out.println("=".repeat(30));
+      System.out.println("-".repeat(20));
       
       tx.commit();
     } catch (Exception e) {

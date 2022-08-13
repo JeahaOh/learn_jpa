@@ -48,4 +48,10 @@ public class Member {
   public void setTeam(Team team) {
     this.team = team;
   }
+  public void changeTeam(Team team) {
+    this.team = team;
+    // 연관관계 편의를 고려
+    // 이 외의 방어 코드등 처리 로직이 들어가야 함
+    team.getMembers().add(this);
+  }
 }
