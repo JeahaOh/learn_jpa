@@ -4,6 +4,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JpaMain {
   public static void main(String[] args) {
@@ -14,34 +16,36 @@ public class JpaMain {
     tx.begin();
     
     try {
-      // 저
+      // 저장
       Team team = new Team();
       team.setName("TeamA");
       em.persist(team);
       
-      Member member1 = new Member();
-      member1.setUsername("member 1");
-      // member1.setTeamId(team.getId());
-      member1.setTeam(team);
-      em.persist(member1);
+      Member member = new Member();
+      member.setUsername("member 1");
+      member.setTeam(team);
+      em.persist(member);
+      
+      for (int i = 2; i <= 10; i++) {
+        member = new Member();
+        member.setUsername("member " + i);
+        member.setTeam(team);
+        em.persist(member);
+      }
   
       em.flush();
+      em.clear();
       
-      Member findMember = em.find(Member.class, member1.getId());
+      Member findMember = em.find(Member.class, member.getId());
+      List<Member> members = findMember.getTeam().getMembers();
+      System.out.println("members : " + members.size());
       
-      // Long findTeamId = findMember.getTeamId();
-      // Team findTeam = em.find(Team.class, findTeamId);
-      Team findTeam = member1.getTeam();
-      System.out.println("findTeam = " + findTeam.getName());
       
-      Team newTeam = new Team();
-      newTeam.setName("newTeam");
-      em.persist(newTeam);
-      
-      findMember.setTeam(newTeam);
-      em.persist(findMember);
-      em.flush();
-      System.out.println("findTeam = " + findMember.getTeam().getName());
+      System.out.println("=".repeat(30));
+      for (Member findFromMembers : members) {
+         System.out.println("M = " + findFromMembers.getUsername());
+      }
+      System.out.println("=".repeat(30));
       
       tx.commit();
     } catch (Exception e) {
