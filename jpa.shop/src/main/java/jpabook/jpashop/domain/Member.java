@@ -1,9 +1,8 @@
 package jpabook.jpashop.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Member {
@@ -15,6 +14,11 @@ public class Member {
   private String city;
   private String street;
   private String zipcode;
+  
+  // member를 보고 member의 order를 조회할 필요가 있을까?
+  // 생각해 보면 비지니스간의 관계는 끊어주는 게 깔끔하다.
+  @OneToMany(mappedBy = "member")
+  private List<Order> orders = new ArrayList<>();
   
   public Long getId() {
     return id;
