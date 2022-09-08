@@ -2,7 +2,6 @@ package hellojpa;
 
 import javax.persistence.*;
 
-// @Entity : JPA가 관리할 객체
 @Entity
 public class Member {
   
@@ -14,13 +13,9 @@ public class Member {
   @Column(name ="USERNAME")
   private String username;
   
-//  @Column(name = "TEAM_ID")
-//  private long teamId;
   @ManyToOne
   @JoinColumn(name = "TEAM_ID")
   private Team team;
-  
-  public Member() {}
   
   public Long getId() {
     return id;
@@ -38,20 +33,11 @@ public class Member {
     this.username = name;
   }
   
-//  public long getTeamId() { return teamId; }
-//  public void setTeamId(long teamId) { this.teamId = teamId; }
-  
   public Team getTeam() {
     return team;
   }
   
   public void setTeam(Team team) {
     this.team = team;
-  }
-  public void changeTeam(Team team) {
-    this.team = team;
-    // 연관관계 편의를 고려
-    // 이 외의 방어 코드등 처리 로직이 들어가야 함
-    team.getMembers().add(this);
   }
 }
