@@ -20,15 +20,13 @@ public class Order {
   @JoinColumn(name = "MEMBER_ID")
   private Member member;
   
+  @OneToOne
+  @JoinColumn(name = "DELIVERY_ID")
+  private Delivery delivery;
   @OneToMany(mappedBy = "order")
   private List<OrderItem> orderItems = new ArrayList<>();
   
   private LocalDateTime orderDate;
-  
-  public void addOrderItem(OrderItem orderItem) {
-    orderItems.add(orderItem);
-    orderItem.setOrder(this);
-  }
   
   @Enumerated(EnumType.STRING)
   private OrderStatus status;
@@ -55,6 +53,11 @@ public class Order {
   
   public void setOrderDate(LocalDateTime orderDate) {
     this.orderDate = orderDate;
+  }
+  
+  public void addOrderItem(OrderItem orderItem) {
+    orderItems.add(orderItem);
+    orderItem.setOrder(this);
   }
   
   public OrderStatus getStatus() {
