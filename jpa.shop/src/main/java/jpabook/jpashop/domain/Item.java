@@ -1,11 +1,15 @@
 package jpabook.jpashop.domain;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Item {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+//@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn
+public abstract class Item extends BaseEntity {
   
   @Id
   @GeneratedValue
